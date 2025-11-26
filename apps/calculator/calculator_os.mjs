@@ -1,11 +1,11 @@
-// calculator_os.mjs — perfect, valid organism
+// calculator_os.mjs — bare bones test
 export default function CalculatorSkin() {
-  return (
-    <div className="polygon-window">
-      <div className="polygon-title">Calculator</div>
-      <div style={{textAlign:'center', fontSize:'24px', opacity:0.7, marginTop: '40px'}}>
-        Lattice online. Ready.
-      </div>
-    </div>
-  );
+  return document.createElement('div');
 }
+
+CalculatorSkin.prototype.render = function() {
+  this.element = document.createElement('div');
+  this.element.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:red;color:white;padding:50px;font-size:32px;font-family:Arial;border:3px solid white;';
+  this.element.textContent = 'Calculator';
+  return this.element;
+};
