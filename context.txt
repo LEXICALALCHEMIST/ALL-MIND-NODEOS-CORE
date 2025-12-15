@@ -1,0 +1,124 @@
+public/
+
+vapor/
+
+apps/
+
+/caculator/
+
+caculator_os.js
+// FINAL LAW — PURE DOM APP (NO REACT, NO OBJECTS, NO ERRORS)
+function CalculatorSkin() {
+  const div = document.createElement('div');
+  div.style.cssText = `
+    position:fixed;inset:0;background:#000;color:#0f0;
+    font:140px monospace;display:grid;place-items:center;
+    text-shadow:0 0 80px #0f0;border:12px solid #0f0;
+    box-shadow:0 0 160px #0f0;z-index:999999;
+    pointer-events:none;user-select:none;
+  `;
+  div.innerHTML = 'CALCULATOR';
+  document.body.appendChild(div);
+
+  // Return nothing (or null) — React expects a valid child
+  return null;
+}
+
+// Expose it
+window.CalculatorSkin = CalculatorSkin;
+window.dispatchEvent(new Event('calculator_os_ready'));
+
+/notepad/
+
+
+/root/ 
+server.js 
+
+// Node-Hub/server.js — FINAL VERSION (this fixes everything)
+import express from "express";
+import cors from "cors";
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const app = express();
+
+app.use(cors());
+
+// Serve static files from public/
+app.use(express.static(join(__dirname, "public"), {
+  setHeaders: (res, path) => {
+    if (path.endsWith(".js")) {
+      res.setHeader("Content-Type", "application/javascript");
+    }
+  }
+}));
+
+app.listen(3001, () => {
+  console.log("YOUR HUB IS LIVE → http://localhost:3001/apps/calculator/calculator_os.js");
+});
+
+
+/////// NOTE -> this is REACTOR.js the injection point in node-os
+
+// src/integration/reactor.js
+import { createRoot } from 'react-dom/client';
+import { APP_CATALOG } from './appIndex.js';
+
+export const spawnApp = async (appId) => {
+  const app = APP_CATALOG.find(a => a.id === appId);
+  if (!app) return console.error("App not found:", appId);
+
+  const url = app.hub;
+  const componentName = app.componentName;
+
+  // Remove old one if exists
+  window[componentName] = null;
+
+  // Load script
+  const script = document.createElement('script');
+  script.src = url + "?t=" + Date.now();
+
+  return new Promise((resolve, reject) => {
+    const handler = () => {
+      const Skin = window[componentName];
+      if (!Skin) {
+        console.error("Component not found:", componentName);
+        reject();
+        return;
+      }
+
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+      const root = createRoot(container);
+      root.render(<Skin />);
+
+      console.log(`${app.name} IS ALIVE — FROM YOUR SERVER`);
+      resolve({ destroy: () => root.unmount() && container.remove() });
+    };
+
+    // Wait for the custom event (guaranteed to fire after assignment)
+    window.addEventListener('calculator_os_ready', handler, { once: true });
+
+    // Fallback: also try onload (in case event fires too early)
+      script.onload = () => setTimeout(() => {
+        if (window[componentName]) {
+          window[componentName](); // ← Just CALL the function, don't render it
+          console.log(`${app.name} IS ALIVE — PURE DOM`);
+          resolve({
+            destroy: () => {
+              // Optional: clean up later if needed
+              document.querySelectorAll('[style*="140px monospace"]').forEach(el => el.remove());
+            }
+          });
+        }
+      }, 50);
+
+    script.onerror = () => {
+      console.error("Failed to load script:", url);
+      reject();
+    };
+
+    document.head.appendChild(script);
+  });
+};

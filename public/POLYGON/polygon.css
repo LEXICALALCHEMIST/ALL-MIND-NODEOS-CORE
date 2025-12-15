@@ -1,0 +1,154 @@
+/* POLYGON v0 — Shape Grammar */
+
+/* Primitive #1: App Title Bar */
+.app_title {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 52px;
+  background: #000;
+  color: #0f0;
+  font: 22px monospace;
+  display: grid;
+  place-items: center;
+  text-shadow: 0 0 10px #0f0;
+  border-bottom: 2px solid #0f0;
+  box-shadow: 0 4px 20px #0f0;
+  z-index: 99999;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Primitive #2: Calculator Input Display */
+.calc_input {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  background: #000;
+  color: #0f0;
+  font: 60px monospace;
+  text-align: right;
+  text-shadow: 0 0 20px #0f0;
+  border: 3px solid #0f0;
+  border-radius: 8px;
+  box-shadow: 0 0 30px #0f0;
+  pointer-events: auto;
+  box-sizing: border-box;
+}
+
+.card_medium {
+  position: fixed;
+  top: 80px; /* space below title bar */
+  left: 5%;   /* margin from sides on small screens */
+  right: 5%;
+  width: 90%; /* full width minus margins */
+  max-width: 800px; /* caps on large screens */
+  height: auto; /* dynamic height based on content */
+  min-height: 300px; /* minimum when empty */
+  padding: 40px;
+  background: #000;
+  border: 3px solid #0f0;
+  border-radius: 12px;
+  box-shadow: 0 0 60px #0f0;
+  display: grid;
+  gap: 30px;
+  place-items: center;
+  place-content: center; /* centers content vertically too */
+  z-index: 10;
+  pointer-events: auto;
+  box-sizing: border-box;
+  margin: 0 auto; /* centers horizontally */
+  left: 50%;
+  transform: translateX(-50%); /* perfect centering */
+}
+ 
+/* Auto-styled input inside card_medium */
+.card_medium input[type="text"],
+.card_medium input[type="search"] {
+  width: 90%;
+  max-width: 600px;
+  padding: 60px;
+  background: #000;
+  color: #0f0;
+  font: 40px monospace;
+  text-align: center;
+  text-shadow: 0 0 20px #0f0;
+  border: 2px solid #0f0;
+  border-radius: 8px;
+  box-shadow: 0 0 30px #0f0;
+  outline: none;
+}
+
+/* Primitive #4: Standard Button (green glow) */
+.polygon_btn {
+  padding: 20px 40px;
+  background: #000;
+  color: #0f0;
+  font: 40px monospace;
+  border: 3px solid #0f0;
+  border-radius: 8px;
+  box-shadow: 0 0 30px #0f0;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.polygon_btn:hover {
+  box-shadow: 0 0 50px #0f0;
+  transform: scale(1.05);
+}
+
+.polygon_btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 0 20px #0f0;
+}
+
+/* POLYGON v0 — Grid System Primitives */
+
+/* POLYGON v0 — Grid System Primitives (dynamic, no fixed sizes) */
+
+/* Row — full-width wrapper, flex row */
+.polygon_row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  align-items: stretch;
+  padding: 10px 0;
+}
+
+/* Column base — fully dynamic */
+.polygon_col {
+  flex-grow: 1;      /* grow to fill available space */
+  flex-shrink: 1;
+  flex-basis: 0;     /* start from zero, grow equally */
+  padding: 20px;
+  background: rgba(0, 255, 0, 0.05);
+  border: 1px solid rgba(0, 255, 0, 0.3);
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+  display: grid;
+  place-items: center;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* Optional modifiers for common layouts (override base for specific counts) */
+.polygon_col_2 { flex-basis: 45%; } /* ~50% with gap room, grows/shrinks */
+.polygon_col_3 { flex-basis: 30%; }
+.polygon_col_4 { flex-basis: 22%; }
+
+.exoprint_preview {
+  width: 90%;
+  padding: 20px;
+  background: rgba(0, 255, 0, 0.1);
+  color: #0f0;
+  font: 30px monospace;
+  text-align: center;
+  border: 2px dashed #0f0;
+  border-radius: 8px;
+  text-shadow: 0 0 10px #0f0;
+  margin-top: 20px;
+}

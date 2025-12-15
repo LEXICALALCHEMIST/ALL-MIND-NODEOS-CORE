@@ -1,4 +1,4 @@
-// Node-Hub/server.js — FINAL VERSION (this fixes everything)
+// Node-Hub/server.js — FINAL VERSION (dec 2025)
 import express from "express";
 import cors from "cors";
 import { fileURLToPath } from "url";
@@ -17,6 +17,10 @@ app.use(express.static(join(__dirname, "public"), {
     }
   }
 }));
+
+app.get('/polygon', (req, res) => {
+  res.sendFile(join(__dirname, 'public', 'POLYGON', 'polygon.css'));
+});
 
 app.listen(3001, () => {
   console.log("YOUR HUB IS LIVE → http://localhost:3001/apps/calculator/calculator_os.js");
