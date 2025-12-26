@@ -1,17 +1,33 @@
 /* POLYGON v0 — Shape Grammar */
 
-/* Primitive #1: App Title Bar */
-.app_title {
+/* NAX BACKGROUND — Full black void + visible lattice grid (first element in every skin) */
+.naxBackground {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  z-index: -1;
+  pointer-events: none; /* Clicks pass through */
+
+  /* Visible lattice grid — subtle mint lines */
+  background-image: 
+    linear-gradient(rgba(0, 255, 159, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 159, 0.08) 1px, transparent 1px);
+  background-size: 50px 50px;
+  background-position: center;
+}
+
+
+/* Primitive #1: App Title Bar */
+.app_title {
+  position: fixed;
   height: 52px;
   background: #000;
   color: #0f0;
   font: 22px monospace;
   display: grid;
-  place-items: center;
   text-shadow: 0 0 10px #0f0;
   border-bottom: 2px solid #0f0;
   box-shadow: 0 4px 20px #0f0;
@@ -38,7 +54,6 @@
 
 .card_medium {
   position: fixed;
-  top: 80px; /* space below title bar */
   left: 5%;   /* margin from sides on small screens */
   right: 5%;
   width: 90%; /* full width minus margins */
@@ -47,9 +62,9 @@
   min-height: 300px; /* minimum when empty */
   padding: 40px;
   background: #000;
-  border: 3px solid #0f0;
+  border: 1px solid #0f0;
   border-radius: 12px;
-  box-shadow: 0 0 60px #0f0;
+  box-shadow: 0 0 20px #0f0;
   display: grid;
   gap: 30px;
   place-items: center;

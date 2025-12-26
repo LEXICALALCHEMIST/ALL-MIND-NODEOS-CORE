@@ -1,18 +1,13 @@
 // calculator_os.js — Final version with live preview + listeners
+import { IntentSelect } from '../../NAXUS/skins/components.js';
 
 function CalculatorSkin() {
   document.body.innerHTML = '';
 
-  // Black void
+  // START WITH NAX BACKGROUND - poly class
   const background = document.createElement('div');
-  background.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:-1;';
+  background.className = 'naxBackground';
   document.body.appendChild(background);
-
-  // Title bar
-  const title = document.createElement('div');
-  title.className = 'app_title';
-  title.innerHTML = 'CALCULATOR';
-  document.body.appendChild(title);
 
   // Main card
   const card = document.createElement('div');
@@ -50,30 +45,11 @@ function CalculatorSkin() {
   card.appendChild(row);
 
   // Intent selector — above preview
-const intentWrapper = document.createElement('div');
-intentWrapper.style.cssText = 'width:100%;text-align:center;margin-top:30px;';
+  const intentComponent = IntentSelect();
+  card.appendChild(intentComponent);
 
-const intentLabel = document.createElement('label');
-intentLabel.textContent = 'Operation';
-intentLabel.style.cssText = 'color:#0f0;font:24px monospace;display:block;margin-bottom:10px;';
-intentWrapper.appendChild(intentLabel);
-
-const intentSelect = document.createElement('select');
-intentSelect.className = 'intent_selector';
-const operations = [
-  { value: 'add', text: '+' },
-  { value: 'sub', text: '-' },
-  { value: 'mul', text: '×' },
-  { value: 'div', text: '÷' }
-];
-operations.forEach(op => {
-  const option = document.createElement('option');
-  option.value = op.value;
-  option.textContent = op.text;
-  intentSelect.appendChild(option);
-});
-intentWrapper.appendChild(intentSelect);
-card.appendChild(intentWrapper);
+  // Now access the select if needed (e.g., for reading value)
+  const intentSelect = intentComponent.querySelector('select');
 
 // Live preview
 const preview = document.createElement('div');
