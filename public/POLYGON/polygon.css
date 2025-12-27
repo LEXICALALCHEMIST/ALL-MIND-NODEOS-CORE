@@ -1,6 +1,7 @@
 /* POLYGON v0 — Shape Grammar */
 
-/* NAX BACKGROUND — Full black void + visible lattice grid (first element in every skin) */
+/* NAX BACKGROUND — Full black void + visible lattice grid (first element in every skin) 
+STANDARD UI COMPONENTS FOR ALL APPS REQUIRED */
 .naxBackground {
   position: fixed;
   top: 0;
@@ -18,7 +19,6 @@
   background-size: 50px 50px;
   background-position: center;
 }
-
 
 /* Primitive #1: App Title Bar */
 .app_title {
@@ -74,6 +74,7 @@
   box-sizing: border-box;
   margin: 0 auto; /* centers horizontally */
   left: 50%;
+  opacity: 90%;
   transform: translateX(-50%); /* perfect centering */
 }
  

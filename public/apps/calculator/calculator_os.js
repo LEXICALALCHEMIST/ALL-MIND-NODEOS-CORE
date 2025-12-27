@@ -1,7 +1,10 @@
 // calculator_os.js — Final version with live preview + listeners
-import { IntentSelect } from '../../NAXUS/skins/components.js';
+import { IntentSelect } from '../skins/components.js';
 
 function CalculatorSkin() {
+
+  //log root merge
+  console.log('%cALL-MIND: ROOT - MERGE', 'color: #b388ff; font-family: monospace; font-size: 10px;');
   document.body.innerHTML = '';
 
   // START WITH NAX BACKGROUND - poly class
@@ -9,10 +12,18 @@ function CalculatorSkin() {
   background.className = 'naxBackground';
   document.body.appendChild(background);
 
+  // APP MAIN LOGIC ----------------------------------------------| BACKGROUND
+
+  // NAX APP BUILD MANIFEST 
+
+  // APP MAIN LOGIC ----------------------------------------------| CENTER-VIEW
+
   // Main card
   const card = document.createElement('div');
-  card.className = 'card_medium';
+  card.className = 'card_medium'; // POLY-CLASS
   document.body.appendChild(card);
+
+  // WRAPPER 100% ----------------------------------------------| POLY-CARD
 
   // Row + 2 columns
   const row = document.createElement('div');
@@ -24,7 +35,7 @@ function CalculatorSkin() {
   colA.innerHTML = '<label style="color:#0f0;font:24px monospace;">A</label>';
   const inputA = document.createElement('input');
   inputA.type = 'number';
-  inputA.placeholder = 'First number';
+  inputA.placeholder = 'Set';
   inputA.value = '';
   inputA.style.cssText = 'width:100%;padding:15px;background:#000;color:#0f0;border:2px solid #0f0;font:30px monospace;text-align:center;border-radius:8px;';
   colA.appendChild(inputA);
@@ -36,7 +47,7 @@ function CalculatorSkin() {
   colB.innerHTML = '<label style="color:#0f0;font:24px monospace;">B</label>';
   const inputB = document.createElement('input');
   inputB.type = 'number';
-  inputB.placeholder = 'Second number';
+  inputB.placeholder = 'Push|Pull';
   inputB.value = '';
   inputB.style.cssText = inputA.style.cssText;
   colB.appendChild(inputB);
@@ -44,26 +55,32 @@ function CalculatorSkin() {
 
   card.appendChild(row);
 
-  // Intent selector — above preview
-  const intentComponent = IntentSelect();
+  // Intent selector — IMPOPRTED COMPONENT - from components.js - LOGIC RETURN IS
+  const intentComponent = IntentSelect('add', (newIntent) => {
+    currentIntent = newIntent;  // Store selected intent
+    updatePreview();
+  });
+
   card.appendChild(intentComponent);
 
-  // Now access the select if needed (e.g., for reading value)
   const intentSelect = intentComponent.querySelector('select');
+  if (!intentSelect) {
+  console.error('Select element not found in IntentSelect component');
+  }
 
-// Live preview
-const preview = document.createElement('div');
-preview.className = 'exoprint_preview';
-preview.textContent = 'Live Imprint: —';
-card.appendChild(preview);
+  // Live preview
+  const preview = document.createElement('div');
+  preview.className = 'exoprint_preview';
+  preview.textContent = 'Live Imprint: —';
+  card.appendChild(preview);
 
 // === LISTENERS + LIVE UPDATE + CONSOLE LOG ===
-const updatePreview = () => {
+  const updatePreview = () => {
   const a = inputA.value.trim() || '0';
   const b = inputB.value.trim() || '0';
   const op = intentSelect.value;
 
-  preview.textContent = `Live Imprint: ${a} ${op} ${b}`;
+  preview.textContent = `Live Imprint: A: ${a} OP: ${op} B: ${b}`;
 
   // SACRED CONSOLE LOG — real-time values
   console.log('CURRENT IMPRINT STATE:', {
@@ -91,6 +108,7 @@ calculateBtn.onclick = () => {
   };
 
   console.log('FINAL IMPRINT FORGED:', imprint);
+
 
   // ONLY DISPATCH — matrix is listening via event
   document.dispatchEvent(new CustomEvent('imprint', { detail: imprint }));
@@ -142,7 +160,7 @@ updatePreview();
     })
     .catch(() => {});
 
-  console.log('CALCULATOR SKIN LOADED — LIVE PREVIEW ACTIVE');
+  console.log('%cALL-MIND: CALCULATOR APP [OPEN]', 'color: #b388ff; font-family: monospace; font-size: 10px;');
 }
 
 window.CalculatorSkin = CalculatorSkin;

@@ -1,0 +1,27 @@
+POLYGON IS THE CUSTOM RESPONSIVE DESING LIBARY 
+FOR NOX APPS -
+
+It servers as a pure intent map.
+
+NAX APPS WILL NEVER CONTAIN 
+SCROLLS OR PAGES - THEY WILL BE SINGLE LOCKED SCREENED WITH
+NAVIATION LEFT TO SHIFTING VIEWS.
+
+POLYGON -
+
+SIZE
+COLOR
+RESPONSIVE CODES
+
+POLYGON IS THE CDN FOR ALL SKIN COMPONENTS.
+
+A UPGRADED VERSION OF BOOTSTRAP FOR OMI STYLE PROTOCOLS
+   fetch('http://localhost:3000/POLYGON/polygon.css')
+    .then(r => r.text())
+    .then(css => {
+      const style = document.createElement('style');
+      style.textContent = css;
+      document.head.appendChild(style);
+    })
+    .catch(() => {});
+}

@@ -18,6 +18,8 @@ app.use(express.static(join(__dirname, "public"), {
   }
 }));
 
+app.use('/NAXUS', express.static(join(__dirname, 'public', 'NAXUS')));
+
 app.get('/polygon', (req, res) => {
   res.sendFile(join(__dirname, 'public', 'POLYGON', 'polygon.css'));
 });
