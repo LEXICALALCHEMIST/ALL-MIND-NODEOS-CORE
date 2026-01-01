@@ -112,3 +112,57 @@ export function naxList(items = []) {
 
   return list;
 }
+
+// ALL-MIND/public/NAXUS/skins/components.js — Add naxSearchBar
+
+export function naxSearchBar(placeholder = 'Enter city...', onSearch) {
+  const searchBar = document.createElement('div');
+  searchBar.style.cssText = `
+    width: 80%;
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #1a1a1a;
+    border: 2px solid aqua;
+    border-radius: 16px;
+    box-shadow: 0 0 40px rgba(0, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  `;
+
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.placeholder = placeholder;
+  input.style.cssText = `
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: aqua;
+    font-family: monospace;
+    font-size: 1.4rem;
+    outline: none;
+  `;
+
+  const btn = document.createElement('button');
+  btn.textContent = 'SEARCH';
+  btn.className = 'os_btn';
+  btn.style.cssText = 'font-size: 1.2rem; padding: 10px 20px;';
+
+  // Optional callback on search
+  btn.addEventListener('click', () => {
+    if (onSearch) onSearch(input.value.trim());
+  });
+
+  // Also trigger on Enter key
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && onSearch) {
+      onSearch(input.value.trim());
+    }
+  });
+
+  searchBar.appendChild(input);
+  searchBar.appendChild(btn);
+
+  return searchBar;
+}

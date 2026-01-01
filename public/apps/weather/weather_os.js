@@ -1,6 +1,7 @@
-// src/apps/weather/weather_os.js — Weather app skin with killApp button
+// src/apps/weather/weather_os.js — Full weather app skin with top 25% current + 50% forecast
 
-import { naxList } from "../skins/components.js";
+import { updateWire, imprintPreview, getWeeklyForecast, forgeImprint } from './xenoFrameAPI.js';
+import { naxList } from '../skins/components.js';
 
 window.WeatherSkin = function () {
   const root = document.getElementById('root');
@@ -14,59 +15,99 @@ window.WeatherSkin = function () {
   const container = document.createElement('div');
   container.className = 'naxContainer';
 
+  // NAX BACKGROUND
   const background = document.createElement('div');
   background.className = 'naxBackground';
   container.appendChild(background);
 
-  const card = document.createElement('div');
-  card.className = 'os_card';
-  card.style.cssText = 'max-width: 900px; margin: 80px auto; padding: 60px; position: relative;';
-
+  // Title
   const title = document.createElement('div');
   title.textContent = 'WEATHER';
   title.className = 'naxTitle';
-  root.appendChild(title);
+  container.appendChild(title);
 
-  const wrapper = document.createElement('div');
-  wrapper.className = 'naxWrapper';
+  // Search bar
+  const searchBar = document.createElement('div');
+  searchBar.style.cssText = `
+    width: 60%;
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 10px;
+    background: #1a1a1a;
+    border: 1px solid aqua;
+    border-radius: 16px;
+    box-shadow: 0 0 40px rgba(0, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  `;
 
-  // Example: 25% height card
-  const card25 = document.createElement('div');
-  card25.className = 'naxCard_25';
-  wrapper.appendChild(card25);
+  const cityInput = document.createElement('input');
+  cityInput.type = 'text';
+  cityInput.placeholder = 'Enter city...';
+  cityInput.value = 'London';
+  cityInput.style.cssText = `
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: aqua;
+    font-family: monospace;
+    font-size: 1.2rem;
+    outline: none;
+  `;
+  cityInput.addEventListener('input', (e) => updateWire('city', e.target.value));
+
+  const searchBtn = document.createElement('button');
+  searchBtn.textContent = 'SEARCH';
+  searchBtn.className = 'os_btn';
+  searchBtn.style.cssText = 'font-size: 1.2rem; padding: 10px 20px;';
+  searchBtn.addEventListener('click', async () => {
+    await forgeImprint();
+    updateDisplay();
+  });
+
+  searchBar.appendChild(cityInput);
+  searchBar.appendChild(searchBtn);
+  container.appendChild(searchBar);
+
+  // Top 25% card — current weather
+  const topCard = document.createElement('div');
+  topCard.className = 'naxCard_25';
 
   const currentWeather = document.createElement('div');
   currentWeather.id = 'currentWeather';
-  currentWeather.textContent = 'Loading weather...';
   currentWeather.style.cssText = `
     font-size: 1.8rem;
     color: aqua;
     text-shadow: 0 0 20px aqua;
     text-align: center;
   `;
+  topCard.appendChild(currentWeather);
+  container.appendChild(topCard);
 
-  card25.appendChild(currentWeather);
-  wrapper.appendChild(card25);
+  // Bottom 50% card — forecast
+  const forecastCard = document.createElement('div');
+  forecastCard.className = 'naxCard_50';
 
-  // Example: 50% height card
-  const card50 = document.createElement('div');
-  card50.className = 'naxCard_50';
-  wrapper.appendChild(card50);
+  const forecastList = document.createElement('div');
+  forecastList.id = 'forecastList';
+  forecastCard.appendChild(forecastList);
+  container.appendChild(forecastCard);
 
-  const forecastList = naxList([
-  { a: 'Today', b: '22°C' },
-  { a: 'Tomorrow', b: '19°C' },
-  { a: 'Wednesday', b: '25°C' },
-  { a: 'Thursday', b: '18°C' }
-  ]);
+  // Update display
+  const updateDisplay = () => {
+    currentWeather.textContent = imprintPreview();
 
-  card50.appendChild(forecastList);
-  wrapper.appendChild(card50);
+    forecastList.innerHTML = '';
+    const weekly = getWeeklyForecast();
+    const list = naxList(weekly);
+    forecastList.appendChild(list);
+  };
 
-  container.appendChild(wrapper);
+  // Initial display
+  updateDisplay();
 
-
-  // CLOSE BUTTON — kills app, returns to VaporView
+  // Close button
   const closeBtn = document.createElement('button');
   closeBtn.textContent = '×';
   closeBtn.className = 'os_btn';
@@ -77,15 +118,10 @@ window.WeatherSkin = function () {
     z-index: 9999;
     font-size: 2rem;
     padding: 8px 16px;
-    background: #000;
-    border: 2px solid aqua;
-    color: aqua;
   `;
-  closeBtn.addEventListener('click', () => {
-    console.log('%cWEATHER → KILL COMMAND', 'color: #ff0044; font-weight: bold;');
-    window.killApp();
-  });
+  closeBtn.addEventListener('click', () => window.killApp());
   container.appendChild(closeBtn);
+
   root.appendChild(container);
 
   // POLYGON SUMMON

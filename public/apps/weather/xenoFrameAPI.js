@@ -1,8 +1,9 @@
-// src/apps/weather/xenoFrameAPI.js — XENO Frame Type: API (weather)
+// src/apps/weather/xenoFrameAPI.js — Full XENO frame with current + weekly forecast
 
 let currentState = {
-  city: 'London',  // Default city
-  weatherData: null,
+  city: 'London',
+  currentWeather: null,
+  weeklyForecast: [],
   loading: false,
   error: null
 };
@@ -10,22 +11,45 @@ let currentState = {
 // Update wire from skin input
 export function updateWire(name, value) {
   if (name === 'city') currentState.city = value.trim() || 'London';
-
-  console.log('%cXENOFRAME API → Wire update', 'color: aqua;', currentState);
 }
 
-// Get live preview string
+// Live preview for current weather
 export function imprintPreview() {
   if (currentState.loading) return 'Fetching weather...';
   if (currentState.error) return `Error: ${currentState.error}`;
-  if (!currentState.weatherData) return 'Enter city and fetch weather';
+  if (!currentState.currentWeather) return 'Enter city and fetch weather';
 
-  const data = currentState.weatherData;
-  const temp = Math.round(data.main.temp);
-  const description = data.weather[0].description;
-  const icon = data.weather[0].icon;
+  const current = currentState.currentWeather;
+  const temp = Math.round(current.temp);
+  const feelsLike = Math.round(current.feelslike);
+  const conditions = current.conditions;
 
-  return `Weather: ${currentState.city} — ${temp}°C, ${description}`;
+  return `Weather: ${currentState.city}
+${temp}°C (feels like ${feelsLike}°C)
+${conditions}`;
+}
+
+// Get 7-day forecast for naxList
+export function getWeeklyForecast() {
+  if (!currentState.weeklyForecast.length) {
+    return [
+      { a: 'Today', b: '—' },
+      { a: 'Tomorrow', b: '—' },
+      { a: 'Day 3', b: '—' },
+      { a: 'Day 4', b: '—' },
+      { a: 'Day 5', b: '—' },
+      { a: 'Day 6', b: '—' },
+      { a: 'Day 7', b: '—' }
+    ];
+  }
+
+  return currentState.weeklyForecast.map((day, index) => {
+    const dayName = index === 0 ? 'Today' :
+                    index === 1 ? 'Tomorrow' :
+                    `Day ${index + 1}`;
+    const temp = Math.round(day.temp);
+    return { a: dayName, b: `${temp}°C` };
+  });
 }
 
 // Forge imprint — call API
@@ -33,36 +57,31 @@ export async function forgeImprint() {
   currentState.loading = true;
   currentState.error = null;
 
-  const imprint = {
-    app: 'weather',
-    intent: 'fetch-weather',
-    city: currentState.city,
-    id: crypto.randomUUID(),
-    timestamp: Date.now()
-  };
-
   try {
-    // Use OpenWeatherMap (free API key needed)
-    const apiKey = 'YOUR_API_KEY_HERE';  // Get free key at openweathermap.org
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${currentState.city}&appid=${apiKey}&units=metric`;
+    const apiKey = 'EU7BT5CSTZXZN2PCB2CCX6LNM';  // Your key
+    const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${encodeURIComponent(currentState.city)}?unitGroup=metric&key=${apiKey}&contentType=json`;
 
     const response = await fetch(url);
-    if (!response.ok) throw new Error('City not found or API error');
+    if (!response.ok) {
+      const err = await response.json();
+      throw new Error(err.message || 'City not found');
+    }
 
-    currentState.weatherData = await response.json();
+    const data = await response.json();
 
-    console.log('%cXENOFRAME API → Weather fetched', 'color: #00ff9f;', currentState.weatherData);
+    // Current weather
+    currentState.currentWeather = data.currentConditions;
+
+    // Weekly forecast (first 7 days)
+    currentState.weeklyForecast = data.days.slice(0, 7);
+
+    console.log('%cXENOFRAME → Weather + Weekly fetched', 'color: #00ff9f;', data);
   } catch (err) {
     currentState.error = err.message;
-    console.error('%cXENOFRAME API → Fetch failed', 'color: #ff0044;', err);
+    console.error('%cXENOFRAME → Fetch failed', 'color: #ff0044;', err);
   } finally {
     currentState.loading = false;
   }
 
   return currentState;
-}
-
-// Optional: get full state
-export function getState() {
-  return { ...currentState };
 }
