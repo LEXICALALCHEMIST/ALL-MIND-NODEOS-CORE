@@ -25,9 +25,9 @@ export function imprintPreview() {
   const conditions = current.conditions;
 
   return `Weather: ${currentState.city}
-${temp}°C (feels like ${feelsLike}°C)
-${conditions}`;
-}
+  ${temp}°C (feels like ${feelsLike}°C)
+  ${conditions}`;
+  }
 
 // Get 7-day forecast for naxList
 export function getWeeklyForecast() {

@@ -91,20 +91,46 @@ window.WeatherSkin = function () {
 
   const forecastList = document.createElement('div');
   forecastList.id = 'forecastList';
+
+  // Compacted styles — reduced padding, base font 14px, controlled height
+  forecastList.style.cssText = `
+    padding: 5px;
+    font-size: 12px;
+    line-height: 1.3;
+    max-height: 280px; /* constrains to card bounds */
+  `;
+
   forecastCard.appendChild(forecastList);
-  container.appendChild(forecastCard);
+  container.appendChild(forecastCard); // ← restored — card now mounts cleanly
 
   // Update display
   const updateDisplay = () => {
-    currentWeather.textContent = imprintPreview();
+  currentWeather.textContent = imprintPreview();
 
-    forecastList.innerHTML = '';
-    const weekly = getWeeklyForecast();
-    const list = naxList(weekly);
-    forecastList.appendChild(list);
+  forecastList.innerHTML = '';
+  const weekly = getWeeklyForecast();
+  let list = naxList(weekly);
+
+  // Enforce compaction on the generated list/table
+  list.style.cssText = `
+    width: 100%;
+    font-size: 12px;
+    margin: 0;
+  `;
+
+  // Tighten cells if table structure
+  if (list.tagName === 'TABLE') {
+    const cells = list.querySelectorAll('td, th');
+    cells.forEach(cell => {
+      cell.style.padding = '4px 6px';
+      cell.style.margin = '0';
+    });
+  }
+
+  forecastList.appendChild(list);
   };
 
-  // Initial display
+  // Initial display — preserved as before
   updateDisplay();
 
   // Close button
