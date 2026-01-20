@@ -1,6 +1,10 @@
 // src/apps/archon/archon_os.js — ARCHON: Persistent Shell
 
 import './xenoFrameArch.js';  // Shared frame exposed on window
+import './relayTest.js';  // Mock relay — simulates Pi listener
+  console.log('Mock relay loaded');
+import nodeWire from './nodeWire.js';  // ← Import here
+  window.nodeWire = nodeWire;
 
 window.ArchonSkin = function () {
   const root = document.getElementById('root');
@@ -10,6 +14,8 @@ window.ArchonSkin = function () {
   }
 
   root.innerHTML = '';
+
+
 
   // Persistent shared XenoFrame — lives for entire session
   window.sharedXenoFrame = window.sharedXenoFrame || {
