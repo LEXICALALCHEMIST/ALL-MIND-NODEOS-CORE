@@ -1,42 +1,29 @@
-// src/apps/archon/nodeWire.js — Intent Event Bus (Pub/Sub)
+// src/apps/archon/nodeWire.js — Fixed Intent Bus
 
-const listeners = new Map(); // eventType → Set<callback>
+const listeners = new Map();
 
-export const nodeWire = {
-  emit(event) {
-    const { type, ...payload } = event;
-    console.log(`[NODEWIRE] Emitting: ${type}`, payload);
+const nodeWire = {
+  emit(type, payload = {}) {
+    console.log(`[NODEWIRE] EMIT → ${type}`, payload);
 
-    const callbacks = listeners.get(type);
-    if (callbacks) {
-      callbacks.forEach(cb => cb(payload));
+    const cbs = listeners.get(type);
+    if (cbs) {
+      [...cbs].forEach(cb => cb(payload));
     }
   },
 
-  on(eventType, callback) {
-    if (!listeners.has(eventType)) {
-      listeners.set(eventType, new Set());
-    }
-    listeners.get(eventType).add(callback);
-    return () => nodeWire.off(eventType, callback); // Unsubscribe
+  on(type, callback) {
+    if (!listeners.has(type)) listeners.set(type, new Set());
+    listeners.get(type).add(callback);
+    return () => nodeWire.off(type, callback);
   },
 
-  off(eventType, callback) {
-    const callbacks = listeners.get(eventType);
-    if (callbacks) {
-      callbacks.delete(callback);
-      if (callbacks.size === 0) {
-        listeners.delete(eventType);
-      }
+  off(type, callback) {
+    const cbs = listeners.get(type);
+    if (cbs) {
+      cbs.delete(callback);
+      if (cbs.size === 0) listeners.delete(type);
     }
-  },
-
-  once(eventType, callback) {
-    const wrapped = (payload) => {
-      callback(payload);
-      nodeWire.off(eventType, wrapped);
-    };
-    nodeWire.on(eventType, wrapped);
   },
 
   clear() {
@@ -44,5 +31,4 @@ export const nodeWire = {
   }
 };
 
-// Export as singleton
 export default nodeWire;
