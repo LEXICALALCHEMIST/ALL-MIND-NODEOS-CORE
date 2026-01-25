@@ -1,0 +1,45 @@
+
+{
+  "vertiports": [
+    {
+      "id": "VERT-A",
+      "name": "Vertiport Alpha",
+      "location": "Backyard North Pad",
+      "weather": "Clear, 68°F, Wind 5 mph NW",
+      "dronesInHangar": ["CF-001", "CF-005"],
+      "status": "operational",
+      "capacity": 4,
+      "notes": "Primary charging station"
+    },
+    {
+      "id": "VERT-B",
+      "name": "Vertiport Bravo",
+      "location": "Side Yard East Pad",
+      "weather": "Partly cloudy, 71°F, Wind 8 mph S",
+      "dronesInHangar": ["CF-002"],
+      "status": "operational",
+      "capacity": 3,
+      "notes": "Secondary launch/landing"
+    },
+    {
+      "id": "VERT-C",
+      "name": "Vertiport Charlie",
+      "location": "Backyard South Pad",
+      "weather": "Sunny, 70°F, Wind calm",
+      "dronesInHangar": ["CF-006"],
+      "status": "maintenance",
+      "capacity": 4,
+      "notes": "Sensor calibration in progress"
+    },
+    {
+      "id": "VERT-D",
+      "name": "Vertiport Delta",
+      "location": "Front Yard Test Pad",
+      "weather": "Clear, 69°F, Wind 3 mph E",
+      "dronesInHangar": [],
+      "status": "idle",
+      "capacity": 2,
+      "notes": "Spare pad for overflow"
+    }
+  ]
+}

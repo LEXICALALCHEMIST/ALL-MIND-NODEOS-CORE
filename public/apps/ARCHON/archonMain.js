@@ -45,8 +45,8 @@ window.ArchonSkin = function () {
     width: 90%;
     max-width: 1200px;
     margin: 40px auto 80px;
-    min-height: 80vh;
-    background: rgba(46, 46, 46, 0.56);
+    min-height: 85vh;
+    background: rgba(0, 0, 0, 0.56);
     border: 1px solid rgba(0, 255, 255, 0.3);
     border-radius: 16px;
     box-shadow: 0 0 60px rgba(0, 255, 255, 0.2);
@@ -86,7 +86,7 @@ window.ArchonSkin = function () {
     font-size: 10px;
     font-family: orbitron, sans-serif;
     color: aqua;
-    background: rgba(0, 255, 255, 0.08);
+    background: rgba(0, 0, 0, 0.54);
     border: 1px solid aqua;
     border-radius: 12px;
     cursor: pointer;
@@ -95,10 +95,11 @@ window.ArchonSkin = function () {
   `;
 
   const views = [
-    { label: 'C-C', view: 'control_center' },
-    { label: 'F-O', view: 'fleet_overview' },
-    { label: 'M-C', view: 'mission' },
-    { label: 'A-L', view: 'alerts' }
+    { label: 'C', view: 'control_center' },
+    { label: 'F', view: 'fleet_overview' },
+    { label: 'M', view: 'drone_overview' },
+    { label: 'A', view: 'alerts' },
+    { label: 'A', view: 'alerts' }
   ];
 
   views.forEach(v => {

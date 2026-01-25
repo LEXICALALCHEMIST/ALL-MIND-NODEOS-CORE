@@ -1,0 +1,77 @@
+
+{
+  "drones": [
+    {
+      "id": "CF-001",
+      "label": "Drone 1",
+      "status": "ready",
+      "location": "Vertiport A",
+      "battery": 92,
+      "flightHours": 4.2,
+      "lastMaintenance": "2026-01-22",
+      "productionStatus": "operational",
+      "shippingStatus": "delivered",
+      "notes": "Fully charged, path-ready"
+    },
+    {
+      "id": "CF-002",
+      "label": "Drone 2",
+      "status": "ready",
+      "location": "Vertiport B",
+      "battery": 78,
+      "flightHours": 3.8,
+      "lastMaintenance": "2026-01-23",
+      "productionStatus": "operational",
+      "shippingStatus": "delivered",
+      "notes": "In queue for next patrol"
+    },
+    {
+      "id": "CF-003",
+      "label": "Drone 3",
+      "status": "production",
+      "location": "Assembly Line",
+      "battery": 0,
+      "flightHours": 0,
+      "lastMaintenance": "N/A",
+      "productionStatus": "in-assembly",
+      "shippingStatus": "pending",
+      "notes": "Propeller calibration in progress"
+    },
+    {
+      "id": "CF-004",
+      "label": "Drone 4",
+      "status": "production",
+      "location": "Testing Bay",
+      "battery": 45,
+      "flightHours": 0.5,
+      "lastMaintenance": "N/A",
+      "productionStatus": "in-testing",
+      "shippingStatus": "pending",
+      "notes": "Final hover test pending"
+    },
+    {
+      "id": "CF-005",
+      "label": "Drone 5",
+      "status": "maintenance",
+      "location": "Maintenance Bay",
+      "battery": 12,
+      "flightHours": 6.1,
+      "lastMaintenance": "2026-01-20",
+      "productionStatus": "operational",
+      "shippingStatus": "delivered",
+      "notes": "Battery replacement scheduled"
+    },
+    {
+      "id": "CF-006",
+      "label": "Drone 6",
+      "status": "maintenance",
+      "location": "Vertiport C",
+      "battery": 28,
+      "flightHours": 5.3,
+      "lastMaintenance": "2026-01-21",
+      "productionStatus": "operational",
+      "shippingStatus": "delivered",
+      "notes": "Sensor recalibration in progress"
+    }
+  ]
+}
