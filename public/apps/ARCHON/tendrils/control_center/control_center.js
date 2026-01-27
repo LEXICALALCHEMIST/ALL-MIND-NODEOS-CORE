@@ -64,8 +64,8 @@ export default function control_centerTendril(viewport) {
   const btn = document.createElement('button');
   btn.textContent = 'TAKEOFF';
   btn.style.cssText = `
-    padding: 16px 48px;
-    font-size: 1.4rem;
+    padding: 10px 14px;
+    font-size: 22px;
     font-family: monospace;
     color: #00ffff;
     background: rgba(0, 255, 255, 0.08);

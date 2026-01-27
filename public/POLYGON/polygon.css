@@ -38,9 +38,9 @@
 /* NAX TITLE — Fixed top bar for app titles
 NOTE : !!!! RENDER IN .ROOT */
 .naxTitle {
-  color: rgb(255, 255, 255);
-  font-family: monospace;
-  font-size: 18px;
+  color: rgb(0, 245, 204);
+  font-family: orbitron, sans-serif;
+  font-size: 12px;
   text-shadow: 0 0 40px aqua;
   letter-spacing: 8px;
   margin: 0;
@@ -49,13 +49,14 @@ NOTE : !!!! RENDER IN .ROOT */
   width: 100%;
   height: 24px;
   padding-left: 20px;
+  padding-top: 2px;
   background: #00000086;
   opacity: 0.9;
   text-align: left;
   position: absolute;
   z-index: 9999;
   box-sizing: border-box;
-  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.578); /* Blue shadow */
+  box-shadow: 0 4px 10px rgba(1, 236, 252, 0.578); /* Blue shadow */
 }
 
 /* NAX OVERLAY CARDs — Fullscreen semi-transparent overlay */
