@@ -1,77 +1,261 @@
-
-{
-  "drones": [
-    {
-      "id": "CF-001",
-      "label": "Drone 1",
-      "status": "ready",
-      "location": "Vertiport A",
-      "battery": 92,
-      "flightHours": 4.2,
-      "lastMaintenance": "2026-01-22",
-      "productionStatus": "operational",
-      "shippingStatus": "delivered",
-      "notes": "Fully charged, path-ready"
+[
+  {
+    "id": "cf-001",
+    "name": "Red-Alpha",
+    "model": "Crazyflie 2.1+",
+    "serialNumber": "CF21P-001",
+    "status": "ready",
+    "battery": 92,
+    "location": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0,
+      "vertiport": "VP-A1",
+      "lastUpdated": "2026-01-28T14:45:00Z"
     },
-    {
-      "id": "CF-002",
-      "label": "Drone 2",
-      "status": "ready",
-      "location": "Vertiport B",
-      "battery": 78,
-      "flightHours": 3.8,
-      "lastMaintenance": "2026-01-23",
-      "productionStatus": "operational",
-      "shippingStatus": "delivered",
-      "notes": "In queue for next patrol"
+    "connection": {
+      "type": "radio",
+      "protocol": "crtp",
+      "uri": "radio://0/80/2M/E7E7E7E701",
+      "channel": 80,
+      "datarate": "2M",
+      "address": "E7E7E7E701",
+      "radioDongle": "crazyradio-pa-0",
+      "timeoutMs": 3000
     },
-    {
-      "id": "CF-003",
-      "label": "Drone 3",
-      "status": "production",
-      "location": "Assembly Line",
-      "battery": 0,
-      "flightHours": 0,
-      "lastMaintenance": "N/A",
-      "productionStatus": "in-assembly",
-      "shippingStatus": "pending",
-      "notes": "Propeller calibration in progress"
-    },
-    {
-      "id": "CF-004",
-      "label": "Drone 4",
-      "status": "production",
-      "location": "Testing Bay",
-      "battery": 45,
-      "flightHours": 0.5,
-      "lastMaintenance": "N/A",
-      "productionStatus": "in-testing",
-      "shippingStatus": "pending",
-      "notes": "Final hover test pending"
-    },
-    {
-      "id": "CF-005",
-      "label": "Drone 5",
-      "status": "maintenance",
-      "location": "Maintenance Bay",
-      "battery": 12,
-      "flightHours": 6.1,
-      "lastMaintenance": "2026-01-20",
-      "productionStatus": "operational",
-      "shippingStatus": "delivered",
-      "notes": "Battery replacement scheduled"
-    },
-    {
-      "id": "CF-006",
-      "label": "Drone 6",
-      "status": "maintenance",
-      "location": "Vertiport C",
-      "battery": 28,
-      "flightHours": 5.3,
-      "lastMaintenance": "2026-01-21",
-      "productionStatus": "operational",
-      "shippingStatus": "delivered",
-      "notes": "Sensor recalibration in progress"
+    "capabilities": {
+      "flowDeck": true,
+      "multiRanger": false,
+      "positionHold": true
     }
-  ]
-}
+  },
+  {
+    "id": "cf-002",
+    "name": "Blue-Beta",
+    "model": "Crazyflie 2.1+",
+    "serialNumber": "CF21P-002",
+    "status": "ready",
+    "battery": 85,
+    "location": {
+      "x": 0.5,
+      "y": 0.0,
+      "z": 0.0,
+      "vertiport": "VP-A2",
+      "lastUpdated": "2026-01-28T14:50:00Z"
+    },
+    "connection": {
+      "type": "radio",
+      "protocol": "crtp",
+      "uri": "radio://0/80/2M/E7E7E7E702",
+      "channel": 80,
+      "datarate": "2M",
+      "address": "E7E7E7E702",
+      "radioDongle": "crazyradio-pa-0",
+      "timeoutMs": 3000
+    },
+    "capabilities": {
+      "flowDeck": true,
+      "multiRanger": true
+    }
+  },
+  {
+    "id": "cf-003",
+    "name": "Green-Gamma",
+    "model": "Crazyflie 2.1+",
+    "serialNumber": "CF21P-003",
+    "status": "ready",
+    "battery": 96,
+    "location": {
+      "x": 0.0,
+      "y": 0.5,
+      "z": 0.0,
+      "vertiport": "VP-B1",
+      "lastUpdated": "2026-01-28T14:55:00Z"
+    },
+    "connection": {
+      "type": "radio",
+      "protocol": "crtp",
+      "uri": "radio://0/80/2M/E7E7E7E703",
+      "channel": 80,
+      "datarate": "2M",
+      "address": "E7E7E7E703",
+      "radioDongle": "crazyradio-pa-0",
+      "timeoutMs": 3000
+    }
+  },
+  {
+    "id": "cf-004",
+    "name": "Yellow-Delta",
+    "model": "Crazyflie 2.1+",
+    "serialNumber": "CF21P-004",
+    "status": "ready",
+    "battery": 88,
+    "location": {
+      "x": -0.5,
+      "y": 0.0,
+      "z": 0.0,
+      "vertiport": "VP-B2",
+      "lastUpdated": "2026-01-28T15:00:00Z"
+    },
+    "connection": {
+      "type": "radio",
+      "protocol": "crtp",
+      "uri": "radio://0/80/2M/E7E7E7E704",
+      "channel": 80,
+      "datarate": "2M",
+      "address": "E7E7E7E704",
+      "radioDongle": "crazyradio-pa-0",
+      "timeoutMs": 3000
+    }
+  },
+  {
+    "id": "cf-005",
+    "name": "Purple-Epsilon",
+    "model": "Crazyflie 2.1+",
+    "serialNumber": "CF21P-005",
+    "status": "ready",
+    "battery": 91,
+    "location": {
+      "x": 0.0,
+      "y": -0.5,
+      "z": 0.0,
+      "vertiport": "VP-C1",
+      "lastUpdated": "2026-01-28T15:05:00Z"
+    },
+    "connection": {
+      "type": "radio",
+      "protocol": "crtp",
+      "uri": "radio://0/80/2M/E7E7E7E705",
+      "channel": 80,
+      "datarate": "2M",
+      "address": "E7E7E7E705",
+      "radioDongle": "crazyradio-pa-0",
+      "timeoutMs": 3000
+    }
+  },
+  {
+    "id": "cf-006",
+    "name": "Orange-Zeta",
+    "model": "Crazyflie 2.1+",
+    "serialNumber": "CF21P-006",
+    "status": "ready",
+    "battery": 79,
+    "location": {
+      "x": 1.0,
+      "y": 1.0,
+      "z": 0.0,
+      "vertiport": "VP-C2",
+      "lastUpdated": "2026-01-28T15:10:00Z"
+    },
+    "connection": {
+      "type": "radio",
+      "protocol": "crtp",
+      "uri": "radio://0/80/2M/E7E7E7E706",
+      "channel": 80,
+      "datarate": "2M",
+      "address": "E7E7E7E706",
+      "radioDongle": "crazyradio-pa-0",
+      "timeoutMs": 3000
+    }
+  },
+  {
+    "id": "cf-007",
+    "name": "White-Eta",
+    "model": "Crazyflie 2.1+",
+    "serialNumber": "CF21P-007",
+    "status": "charging",
+    "battery": 45,
+    "location": {
+      "x": null,
+      "y": null,
+      "z": null,
+      "vertiport": "VP-Charge-01",
+      "lastUpdated": "2026-01-28T14:30:00Z"
+    },
+    "connection": {
+      "type": "radio",
+      "protocol": "crtp",
+      "uri": "radio://0/81/2M/E7E7E7E707",
+      "channel": 81,
+      "datarate": "2M",
+      "address": "E7E7E7E707",
+      "radioDongle": "crazyradio-pa-0",
+      "timeoutMs": 3000
+    }
+  },
+  {
+    "id": "cf-008",
+    "name": "Black-Theta",
+    "model": "Crazyflie 2.1+",
+    "serialNumber": "CF21P-008",
+    "status": "offline",
+    "battery": 0,
+    "location": {
+      "x": null,
+      "y": null,
+      "z": null,
+      "vertiport": "VP-Maint-01",
+      "lastUpdated": "2026-01-27T10:00:00Z"
+    },
+    "connection": {
+      "type": "radio",
+      "protocol": "crtp",
+      "uri": "radio://0/82/2M/E7E7E7E708",
+      "channel": 82,
+      "datarate": "2M",
+      "address": "E7E7E7E708",
+      "radioDongle": "crazyradio-pa-0",
+      "timeoutMs": 3000
+    }
+  },
+  {
+    "id": "cf-009",
+    "name": "Silver-Iota",
+    "model": "Crazyflie 2.1+",
+    "serialNumber": "CF21P-009",
+    "status": "maintenance",
+    "battery": 12,
+    "location": {
+      "x": null,
+      "y": null,
+      "z": null,
+      "vertiport": "VP-Maint-02",
+      "lastUpdated": "2026-01-28T09:00:00Z"
+    },
+    "connection": {
+      "type": "radio",
+      "protocol": "crtp",
+      "uri": "radio://0/83/2M/E7E7E7E709",
+      "channel": 83,
+      "datarate": "2M",
+      "address": "E7E7E7E709",
+      "radioDongle": "crazyradio-pa-0",
+      "timeoutMs": 3000
+    }
+  },
+  {
+    "id": "cf-010",
+    "name": "Gold-Kappa",
+    "model": "Crazyflie 2.1+",
+    "serialNumber": "CF21P-010",
+    "status": "testing",
+    "battery": 65,
+    "location": {
+      "x": 2.0,
+      "y": 0.0,
+      "z": 0.5,
+      "vertiport": "VP-Test-01",
+      "lastUpdated": "2026-01-28T14:20:00Z"
+    },
+    "connection": {
+      "type": "radio",
+      "protocol": "crtp",
+      "uri": "radio://0/84/2M/E7E7E7E70A",
+      "channel": 84,
+      "datarate": "2M",
+      "address": "E7E7E7E70A",
+      "radioDongle": "crazyradio-pa-0",
+      "timeoutMs": 3000
+    }
+  }
+]
