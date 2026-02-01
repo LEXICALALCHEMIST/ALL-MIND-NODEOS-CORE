@@ -5,13 +5,13 @@ export function createDroneSlate(drone) {
   
   // Basic styling - small rectangle, full width, fixed height
   slate.style.height = '22px';
-  slate.style.width = '100%';
+  slate.style.width = '95%';
   slate.style.backgroundColor = '#1e1e2e';       // dark background (adjust as needed)
   slate.style.color = '#e0e0ff';                 // light text
-  slate.style.borderBottom = '1px solid #333';   // subtle separator
+  slate.style.borderBottom = '1px solid #33333339';   // subtle separator
   slate.style.display = 'flex';
   slate.style.alignItems = 'center';
-  slate.style.padding = '0 12px';
+  slate.style.padding = '2px 10px';
   slate.style.fontFamily = 'monospace, sans-serif';
   slate.style.fontSize = '13px';
   slate.style.cursor = 'pointer';                // clickable feel

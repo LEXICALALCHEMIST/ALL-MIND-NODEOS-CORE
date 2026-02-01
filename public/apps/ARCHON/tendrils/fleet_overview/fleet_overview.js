@@ -11,7 +11,7 @@ export default function fleet_overviewTendril(viewport) {
   const tabBar = document.createElement('div');
   tabBar.style.cssText = `
     display: flex;
-    height: 15vh;
+    height: 6vh;
     margin: 1px;
     padding: 1px;
     gap: 1px;
