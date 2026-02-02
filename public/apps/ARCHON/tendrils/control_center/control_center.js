@@ -19,21 +19,50 @@ export default function control_centerTendril(viewport) {
     airborne: ''  // placeholder
   };
 
-    // Status display -------------------------------------------------------------
+  // Status display — expanded tech/telemetry panel
   const statusDisplay = document.createElement('div');
   statusDisplay.id = 'status-display';
   statusDisplay.style.cssText = `
-    color: aqua;
-    font-family: monospace;
-    font-size: 1.6rem;
-    text-shadow: 0 0 20px aqua;
-    text-align: center;
-    margin: 40px 0;
+    color: #00ffff;
+    font-family: orbitron, monospace;
+    font-size: 10px;
+    line-height: 1.5;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+    text-align: left;
+    margin: 10px auto;
+    padding: 16px 20px;
+    max-width: 380px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(0, 255, 247, 0.25);
+    border-radius: 8px;
+    box-shadow: inset 0 0 20px rgba(0, 255, 255, 0.1);
+    backdrop-filter: blur(4px);
   `;
+
+  statusDisplay.innerHTML = `
+    <div style="margin-bottom: 8px; font-weight: bold; letter-spacing: 1px;">
+      STATUS: ${status.current}
+    </div>
+    <div style="display: flex; justify-content: space-between;">
+      <span style="color: #88ffff;">ALTITUDE</span>
+      <span style="color: #0062ff;">[ ? m ]</span>
+    </div>
+    <div style="display: flex; justify-content: space-between;">
+      <span style="color: #88ffff;">SPEED</span>
+      <span style="color: #00d5ff;">[ ? m/s ]</span>
+    </div>
+    <div style="display: flex; justify-content: space-between;">
+      <span style="color: #88ffff;">NEXT DEST</span>
+      <span style="color: #2df600;">[ ? ]</span>
+    </div>
+  `;
+
   viewport.appendChild(statusDisplay);
 
+  // Live render function — now updates the first line only (others are static placeholders)
   function renderStatus() {
-    statusDisplay.textContent = `Status: ${status.current}`;
+    // Only update the status line dynamically
+    statusDisplay.querySelector('div:first-child').textContent = `STATUS: ${status.current}`;
     console.log('[CONTROL CENTER] Rendered status:', status.current);
   }
 
@@ -48,8 +77,8 @@ export default function control_centerTendril(viewport) {
     justify-content: space-between;
     align-items: center;
     margin: 20px 0 40px 0;
-    padding: 15px 20px;
-    background: rgba(0, 255, 255, 0.03);
+    padding: 20px 20px;
+    background: linear-gradient(to right, #1c1c1ecb 0%, rgba(28, 28, 30, 0) 100%);
     border-radius: 8px;
     border: 1px solid rgba(0, 255, 255, 0.15);
     gap: 20px;
@@ -70,7 +99,7 @@ export default function control_centerTendril(viewport) {
   title.style.cssText = `
     color: #00ffff;
     font-family: monospace;
-    font-size: 1.4rem;
+    font-size: 14px;
     font-weight: bold;
     text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
   `;
@@ -125,96 +154,279 @@ export default function control_centerTendril(viewport) {
   leftGroup.appendChild(droneDropdown);
   headerSection.appendChild(leftGroup);
 
-  // Right side: Emergency / Safe / Takeoff buttons
-  const buttonGroup = document.createElement('div');
-  buttonGroup.style.cssText = `
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    align-items: center;
-  `;
+// Right side: Emergency / Takeoff / Land buttons — icon-only, smaller
+    const buttonGroup = document.createElement('div');
+    buttonGroup.style.cssText = `
+      display: flex;
+      gap: 10px;                    // even tighter spacing
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      align-items: center;
+    `;
 
-  // Emergency Land (still dead for now)
-  const emergencyBtn = document.createElement('button');
-  emergencyBtn.textContent = 'Emergency Land';
-  emergencyBtn.style.cssText = `
-    padding: 10px 20px;
-    font-size: 15px;
-    font-family: monospace;
-    color: #ff5555;
-    background: rgba(255, 85, 85, 0.08);
-    border: 1.5px solid #ff5555;
-    border-radius: 10px;
-    cursor: not-allowed;
-    opacity: 0.65;
-    transition: all 0.25s;
-    min-width: 140px;
-    text-align: center;
-  `;
-  emergencyBtn.addEventListener('mouseenter', () => { emergencyBtn.style.opacity = '0.85'; });
-  emergencyBtn.addEventListener('mouseleave', () => { emergencyBtn.style.opacity = '0.65'; });
-  buttonGroup.appendChild(emergencyBtn);
+    // Emergency Land — X icon only
+    const emergencyBtn = document.createElement('button');
+    emergencyBtn.innerHTML = '<i class="bi bi-bezier"></i>';
+    emergencyBtn.style.cssText = `
+      padding: 6px 10px;
+      font-size: 22px;              // slightly bigger icon for visibility
+      color: red;
+      background: rgba(0, 0, 0, 0.66);
+      border: 1.5px solid #000000;
+      border-radius: 8px;
+      cursor: not-allowed;
+      transition: all 0.25s;
+      min-width: 44px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    `;
+    buttonGroup.appendChild(emergencyBtn);
 
-  // Safe Land (still dead)
-  const safeLandBtn = document.createElement('button');
-  safeLandBtn.textContent = 'Safe Land';
-  safeLandBtn.style.cssText = `
-    padding: 10px 20px;
-    font-size: 15px;
-    font-family: monospace;
-    color: #55ff55;
-    background: rgba(85, 255, 85, 0.08);
-    border: 1.5px solid #55ff55;
-    border-radius: 10px;
-    cursor: not-allowed;
-    opacity: 0.65;
-    transition: all 0.25s;
-    min-width: 140px;
-    text-align: center;
-  `;
-  safeLandBtn.addEventListener('mouseenter', () => { safeLandBtn.style.opacity = '0.85'; });
-  safeLandBtn.addEventListener('mouseleave', () => { safeLandBtn.style.opacity = '0.65'; });
-  buttonGroup.appendChild(safeLandBtn);
-
-  // NEW: Takeoff button (moved to header, functional)
-  const takeoffBtn = document.createElement('button');
-  takeoffBtn.textContent = 'Takeoff';
-  takeoffBtn.style.cssText = `
-    padding: 10px 20px;
-    font-size: 15px;
-    font-family: monospace;
-    color: #00ffff;
-    background: rgba(0, 255, 255, 0.15);
-    border: 2px solid #00ffff;
-    border-radius: 10px;
-    cursor: pointer;
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
-    transition: all 0.3s;
-    min-width: 140px;
-    text-align: center;
-  `;
-  takeoffBtn.addEventListener('click', () => {
-    const droneId = window.sharedXenoFrame?.activeDroneId || 'CF-001';
-    console.log('[CONTROL CENTER] TAKEOFF INTENT EMITTED for', droneId);
-    nodeWire.emit('flight-command', {
-      droneId,
-      cmd: 'takeoff'
+    // Takeoff (functional, up arrow)
+    const takeoffBtn = document.createElement('button');
+    takeoffBtn.innerHTML = '<i class="bi bi-arrow-up-circle-fill"></i>';
+    takeoffBtn.style.cssText = `
+      padding: 6px 10px;
+      font-size: 22px;
+      color: #00ffff;
+      background: rgba(0, 255, 255, 0.15);
+      border: 2px solid #00ffff;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+      transition: all 0.3s;
+      min-width: 50px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    `;
+    takeoffBtn.addEventListener('click', () => {
+      const droneId = window.sharedXenoFrame?.activeDroneId || 'CF-001';
+      console.log('[CONTROL CENTER] TAKEOFF INTENT EMITTED for', droneId);
+      nodeWire.emit('flight-command', {
+        droneId,
+        cmd: 'takeoff'
+      });
+      status.current = 'intent-sent — takeoff';
     });
-    status.current = 'intent-sent — takeoff';
-  });
-  takeoffBtn.addEventListener('mouseenter', () => {
-    takeoffBtn.style.boxShadow = '0 0 30px rgba(0, 255, 255, 0.6)';
-  });
-  takeoffBtn.addEventListener('mouseleave', () => {
-    takeoffBtn.style.boxShadow = '0 0 20px rgba(0, 255, 255, 0.3)';
-  });
-  buttonGroup.appendChild(takeoffBtn);
+    takeoffBtn.addEventListener('mouseenter', () => {
+      takeoffBtn.style.boxShadow = '0 0 30px rgba(0, 255, 255, 0.6)';
+      takeoffBtn.style.transform = 'scale(1.1)';
+    });
+    takeoffBtn.addEventListener('mouseleave', () => {
+      takeoffBtn.style.boxShadow = '0 0 20px rgba(0, 255, 255, 0.3)';
+      takeoffBtn.style.transform = 'scale(1)';
+    });
+    buttonGroup.appendChild(takeoffBtn);
 
-  headerSection.appendChild(buttonGroup);
-  viewport.appendChild(headerSection);
+    // Land (placeholder dead button, down arrow)
+    const landBtn = document.createElement('button');
+    landBtn.innerHTML = '<i class="bi bi-arrow-down-circle-fill"></i>';
+    landBtn.style.cssText = `
+      padding: 6px 10px;
+      font-size: 22px;
+      color: #55ff55;
+      background: rgba(0, 0, 0, 0.66);
+      border: 1.5px solid #55ff55;
+      border-radius: 8px;
+      cursor: not-allowed;
+      opacity: 0.65;
+      transition: all 0.25s;
+      min-width: 50px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    `;
+    landBtn.addEventListener('mouseenter', () => { landBtn.style.opacity = '0.85'; });
+    landBtn.addEventListener('mouseleave', () => { landBtn.style.opacity = '0.65'; });
+    buttonGroup.appendChild(landBtn);
+
+    // Hover mode (grey button, blue icon)
+  const hoverBtn = document.createElement('button');
+  hoverBtn.innerHTML = '<i class="bi bi-bezier"></i>';
+  hoverBtn.style.cssText = `
+    padding: 6px 10px;
+    font-size: 22px;
+    color: #00aaff;                   // bright blue icon
+    background: rgb(0, 0, 0);  // neutral grey bg
+    border: 1.5px solid #00aaff;      // blue border
+    border-radius: 8px;
+    cursor: pointer;
+    opacity: 0.75;
+    transition: all 0.25s;
+    min-width: 50px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 8px rgba(0, 170, 255, 0.3);
+  `;
+  hoverBtn.addEventListener('mouseenter', () => {
+    hoverBtn.style.opacity = '1';
+    hoverBtn.style.transform = 'scale(1.1)';
+    hoverBtn.style.boxShadow = '0 0 16px rgba(0, 170, 255, 0.6)';
+  });
+  hoverBtn.addEventListener('mouseleave', () => {
+    hoverBtn.style.opacity = '0.75';
+    hoverBtn.style.transform = 'scale(1)';
+    hoverBtn.style.boxShadow = '0 0 8px rgba(0, 170, 255, 0.3)';
+  });
+
+  // Placeholder click (for now just logs – add real hover command later)
+  hoverBtn.addEventListener('click', () => {
+    const droneId = window.sharedXenoFrame?.activeDroneId || 'CF-001';
+    console.log('[CONTROL CENTER] HOVER MODE ACTIVATED for', droneId);
+    // nodeWire.emit('flight-command', { droneId, cmd: 'hover' }); // ← add this when ready
+    status.current = 'intent-sent — hover mode';
+  });
+
+  buttonGroup.appendChild(hoverBtn);
+
+    headerSection.appendChild(buttonGroup);
+    viewport.appendChild(headerSection);
   // ──────────────────────────────────────────────────────────────────────────────
+// ── Interactive Sliders: Speed & Altitude (working version) ──────────────────
+const sliderSection = document.createElement('div');
+sliderSection.style.cssText = `
+  width: 90%;
+  max-width: 500px;
+  margin: 0 auto 40px auto;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(0, 255, 255, 0.25);
+  border-radius: 8px;
+  box-shadow: inset 0 0 20px rgba(0, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+`;
 
+// Reusable slider creator — no mappingFn, just unit string
+function createSlider(labelText, fillColorStart, fillColorEnd, unit = '%', initialPercent = 50) {
+  const wrapper = document.createElement('div');
+  wrapper.style.cssText = 'display: flex; flex-direction: column; gap: 6px;';
+
+  const label = document.createElement('div');
+  label.textContent = labelText;
+  label.style.cssText = `
+    color: #00ffff;
+    font-family: monospace;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 1px;
+  `;
+
+  const container = document.createElement('div');
+  container.style.cssText = `
+    height: 24px;
+    background: #0a0a0a;
+    border: 1px solid #444;
+    border-radius: 12px;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    touch-action: pan-x;
+  `;
+
+  const fill = document.createElement('div');
+  fill.style.cssText = `
+    width: ${initialPercent}%;
+    height: 100%;
+    background: linear-gradient(to right, ${fillColorStart}, ${fillColorEnd});
+    border-radius: 12px 0 0 12px;
+    pointer-events: none;
+  `;
+
+  const knob = document.createElement('div');
+  knob.style.cssText = `
+    position: absolute;
+    top: -6px;
+    left: calc(${initialPercent}% - 10px);
+    width: 20px;
+    height: 36px;
+    background: ${fillColorEnd};
+    border: 3px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 12px ${fillColorEnd}80;
+    pointer-events: none;
+  `;
+
+  const valueText = document.createElement('span');
+  valueText.textContent = `${Math.round(initialPercent)}${unit}`;
+  valueText.style.cssText = `
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-size: 12px;
+    font-weight: bold;
+    pointer-events: none;
+    text-shadow: 0 0 4px #fff;
+  `;
+
+  container.appendChild(fill);
+  container.appendChild(knob);
+  container.appendChild(valueText);
+  wrapper.appendChild(label);
+  wrapper.appendChild(container);
+  sliderSection.appendChild(wrapper);
+
+  // Drag logic
+  let currentPercent = initialPercent;
+  let isDragging = false;
+
+  function update(percent) {
+    percent = Math.max(0, Math.min(100, Math.round(percent)));
+    currentPercent = percent;
+    fill.style.width = `${percent}%`;
+    knob.style.left = `calc(${percent}% - 10px)`;
+    valueText.textContent = `${percent}${unit}`;
+  }
+
+  function getPercent(e) {
+    const rect = container.getBoundingClientRect();
+    const x = (e.clientX || (e.touches && e.touches[0]?.clientX)) - rect.left;
+    return (x / rect.width) * 100;
+  }
+
+  const start = (e) => {
+    isDragging = true;
+    update(getPercent(e));
+  };
+
+  const move = (e) => {
+    if (isDragging) update(getPercent(e));
+  };
+
+  const end = () => {
+    isDragging = false;
+    //console.log(`${labelText} released at: ${currentPercent}${unit}`);
+    // Later: add 2-second timer + nodeWire.emit here
+  };
+
+  container.addEventListener('mousedown', start);
+  document.addEventListener('mousemove', move);
+  document.addEventListener('mouseup', end);
+
+  container.addEventListener('touchstart', start);
+  document.addEventListener('touchmove', move);
+  document.addEventListener('touchend', end);
+
+  container.addEventListener('click', (e) => update(getPercent(e)));
+}
+
+// Create the two sliders
+createSlider('SPEED',    '#1a3c4a', '#00aaff', ' m/s', 40);
+createSlider('ALTITUDE', '#1a3c1a', '#00ff88', ' m',   60);
+
+viewport.appendChild(sliderSection);
 
 
   // Debug listener (unchanged)
