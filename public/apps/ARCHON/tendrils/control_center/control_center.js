@@ -154,37 +154,46 @@ export default function control_centerTendril(viewport) {
   leftGroup.appendChild(droneDropdown);
   headerSection.appendChild(leftGroup);
 
-// Right side: Emergency / Takeoff / Land buttons — icon-only, smaller
+    // Right side: Emergency / Takeoff / Land / Hover buttons — consistent style
     const buttonGroup = document.createElement('div');
     buttonGroup.style.cssText = `
       display: flex;
-      gap: 10px;                    // even tighter spacing
+      gap: 10px;
       flex-wrap: wrap;
       justify-content: flex-end;
       align-items: center;
     `;
 
-    // Emergency Land — X icon only
+    // Emergency Land — lighter green, same style as Takeoff but different icon color
     const emergencyBtn = document.createElement('button');
-    emergencyBtn.innerHTML = '<i class="bi bi-bezier"></i>';
+    emergencyBtn.innerHTML = '<i class="bi bi-arrow-down-circle-fill"></i>';  // same up arrow icon as takeoff
     emergencyBtn.style.cssText = `
       padding: 6px 10px;
-      font-size: 22px;              // slightly bigger icon for visibility
-      color: red;
-      background: rgba(0, 0, 0, 0.66);
-      border: 1.5px solid #000000;
-      border-radius: 8px;
-      cursor: not-allowed;
-      transition: all 0.25s;
-      min-width: 44px;
+      font-size: 22px;
+      color: red;                   // lighter green
+      border: 2px solid #ff0000;        // lighter green border
+      border-radius: 12px;
+      background: black;  // slightly faded since dead
+      transition: all 0.3s;
+      min-width: 50px;
       height: 36px;
       display: flex;
       align-items: center;
       justify-content: center;
     `;
+    emergencyBtn.addEventListener('mouseenter', () => {
+      emergencyBtn.style.opacity = '0.9';
+      emergencyBtn.style.boxShadow = '0 0 30px rgba(136, 255, 136, 0.6)';
+      emergencyBtn.style.transform = 'scale(1.1)';
+    });
+    emergencyBtn.addEventListener('mouseleave', () => {
+      emergencyBtn.style.opacity = '0.7';
+      emergencyBtn.style.boxShadow = '0 0 20px rgba(136, 255, 136, 0.3)';
+      emergencyBtn.style.transform = 'scale(1)';
+    });
     buttonGroup.appendChild(emergencyBtn);
 
-    // Takeoff (functional, up arrow)
+    // Takeoff (functional, unchanged except consistent sizing)
     const takeoffBtn = document.createElement('button');
     takeoffBtn.innerHTML = '<i class="bi bi-arrow-up-circle-fill"></i>';
     takeoffBtn.style.cssText = `
@@ -222,76 +231,78 @@ export default function control_centerTendril(viewport) {
     });
     buttonGroup.appendChild(takeoffBtn);
 
-    // Land (placeholder dead button, down arrow)
+    // Land (placeholder, down arrow, same style)
     const landBtn = document.createElement('button');
     landBtn.innerHTML = '<i class="bi bi-arrow-down-circle-fill"></i>';
     landBtn.style.cssText = `
       padding: 6px 10px;
       font-size: 22px;
       color: #55ff55;
-      background: rgba(0, 0, 0, 0.66);
-      border: 1.5px solid #55ff55;
+      background: rgba(0, 255, 255, 0.15);
+      border: 2px solid #55ff55;
       border-radius: 8px;
       cursor: not-allowed;
-      opacity: 0.65;
-      transition: all 0.25s;
+      opacity: 0.7;
+      transition: all 0.3s;
       min-width: 50px;
       height: 36px;
       display: flex;
       align-items: center;
       justify-content: center;
     `;
-    landBtn.addEventListener('mouseenter', () => { landBtn.style.opacity = '0.85'; });
-    landBtn.addEventListener('mouseleave', () => { landBtn.style.opacity = '0.65'; });
+    landBtn.addEventListener('mouseenter', () => {
+      landBtn.style.opacity = '0.9';
+      landBtn.style.boxShadow = '0 0 30px rgba(85, 255, 85, 0.6)';
+      landBtn.style.transform = 'scale(1.1)';
+    });
+    landBtn.addEventListener('mouseleave', () => {
+      landBtn.style.opacity = '0.7';
+      landBtn.style.boxShadow = '0 0 20px rgba(85, 255, 85, 0.3)';
+      landBtn.style.transform = 'scale(1)';
+    });
     buttonGroup.appendChild(landBtn);
 
-    // Hover mode (grey button, blue icon)
-  const hoverBtn = document.createElement('button');
-  hoverBtn.innerHTML = '<i class="bi bi-bezier"></i>';
-  hoverBtn.style.cssText = `
-    padding: 6px 10px;
-    font-size: 22px;
-    color: #00aaff;                   // bright blue icon
-    background: rgb(0, 0, 0);  // neutral grey bg
-    border: 1.5px solid #00aaff;      // blue border
-    border-radius: 8px;
-    cursor: pointer;
-    opacity: 0.75;
-    transition: all 0.25s;
-    min-width: 50px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 8px rgba(0, 170, 255, 0.3);
-  `;
-  hoverBtn.addEventListener('mouseenter', () => {
-    hoverBtn.style.opacity = '1';
-    hoverBtn.style.transform = 'scale(1.1)';
-    hoverBtn.style.boxShadow = '0 0 16px rgba(0, 170, 255, 0.6)';
-  });
-  hoverBtn.addEventListener('mouseleave', () => {
-    hoverBtn.style.opacity = '0.75';
-    hoverBtn.style.transform = 'scale(1)';
-    hoverBtn.style.boxShadow = '0 0 8px rgba(0, 170, 255, 0.3)';
-  });
-
-  // Placeholder click (for now just logs – add real hover command later)
-  hoverBtn.addEventListener('click', () => {
-    const droneId = window.sharedXenoFrame?.activeDroneId || 'CF-001';
-    console.log('[CONTROL CENTER] HOVER MODE ACTIVATED for', droneId);
-    // nodeWire.emit('flight-command', { droneId, cmd: 'hover' }); // ← add this when ready
-    status.current = 'intent-sent — hover mode';
-  });
-
-  buttonGroup.appendChild(hoverBtn);
+    // Hover mode — matches Takeoff style, uses "H" icon
+    const hoverBtn = document.createElement('button');
+    hoverBtn.innerHTML = '<i class="bi bi-h-square-fill"></i>';  // H icon for Hover
+    hoverBtn.style.cssText = `
+      padding: 6px 10px;
+      font-size: 22px;
+      color: #00ffff;
+      background: rgba(0, 255, 255, 0.15);
+      border: 2px solid #00ffff;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+      transition: all 0.3s;
+      min-width: 50px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    `;
+    hoverBtn.addEventListener('click', () => {
+      const droneId = window.sharedXenoFrame?.activeDroneId || 'CF-001';
+      console.log('[CONTROL CENTER] HOVER MODE ACTIVATED for', droneId);
+      // nodeWire.emit('flight-command', { droneId, cmd: 'hover' }); // add when ready
+      status.current = 'intent-sent — hover mode';
+    });
+    hoverBtn.addEventListener('mouseenter', () => {
+      hoverBtn.style.boxShadow = '0 0 30px rgba(0, 255, 255, 0.6)';
+      hoverBtn.style.transform = 'scale(1.1)';
+    });
+    hoverBtn.addEventListener('mouseleave', () => {
+      hoverBtn.style.boxShadow = '0 0 20px rgba(0, 255, 255, 0.3)';
+      hoverBtn.style.transform = 'scale(1)';
+    });
+    buttonGroup.appendChild(hoverBtn);
 
     headerSection.appendChild(buttonGroup);
     viewport.appendChild(headerSection);
   // ──────────────────────────────────────────────────────────────────────────────
-// ── Interactive Sliders: Speed & Altitude (working version) ──────────────────
-const sliderSection = document.createElement('div');
-sliderSection.style.cssText = `
+// ── Preset Button Groups: Speed & Altitude ───────────────────────────────────
+const buttonSection = document.createElement('div');
+buttonSection.style.cssText = `
   width: 90%;
   max-width: 500px;
   margin: 0 auto 40px auto;
@@ -306,10 +317,14 @@ sliderSection.style.cssText = `
   gap: 24px;
 `;
 
-// Reusable slider creator — no mappingFn, just unit string
-function createSlider(labelText, fillColorStart, fillColorEnd, unit = '%', initialPercent = 50) {
+// Reusable function to create one preset button group
+function createPresetGroup(labelText, fillColorStart, fillColorEnd, unit) {
   const wrapper = document.createElement('div');
-  wrapper.style.cssText = 'display: flex; flex-direction: column; gap: 6px;';
+  wrapper.style.cssText = `
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  `;
 
   const label = document.createElement('div');
   label.textContent = labelText;
@@ -321,112 +336,70 @@ function createSlider(labelText, fillColorStart, fillColorEnd, unit = '%', initi
     letter-spacing: 1px;
   `;
 
-  const container = document.createElement('div');
-  container.style.cssText = `
-    height: 24px;
-    background: #0a0a0a;
-    border: 1px solid #444;
-    border-radius: 12px;
-    position: relative;
-    cursor: pointer;
-    user-select: none;
-    touch-action: pan-x;
-  `;
-
-  const fill = document.createElement('div');
-  fill.style.cssText = `
-    width: ${initialPercent}%;
-    height: 100%;
-    background: linear-gradient(to right, ${fillColorStart}, ${fillColorEnd});
-    border-radius: 12px 0 0 12px;
-    pointer-events: none;
-  `;
-
-  const knob = document.createElement('div');
-  knob.style.cssText = `
-    position: absolute;
-    top: -6px;
-    left: calc(${initialPercent}% - 10px);
-    width: 20px;
-    height: 36px;
-    background: ${fillColorEnd};
-    border: 3px solid #fff;
-    border-radius: 50%;
-    box-shadow: 0 0 12px ${fillColorEnd}80;
-    pointer-events: none;
-  `;
-
-  const valueText = document.createElement('span');
-  valueText.textContent = `${Math.round(initialPercent)}${unit}`;
-  valueText.style.cssText = `
-    position: absolute;
-    inset: 0;
+  const group = document.createElement('div');
+  group.style.cssText = `
     display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #000;
-    font-size: 12px;
-    font-weight: bold;
-    pointer-events: none;
-    text-shadow: 0 0 4px #fff;
+    gap: 8px;
+    justify-content: space-between;
   `;
 
-  container.appendChild(fill);
-  container.appendChild(knob);
-  container.appendChild(valueText);
+  const presets = [25, 50, 75, 100];
+
+  presets.forEach(value => {
+    const btn = document.createElement('button');
+    btn.textContent = `${value}${unit}`;
+    btn.dataset.value = value;
+    btn.style.cssText = `
+      flex: 1;
+      padding: 10px 0;
+      font-size: 14px;
+      font-family: monospace;
+      color: #00ff88;
+      background: linear-gradient(to bottom, ${fillColorStart}, ${fillColorEnd}22);
+      border: 1.5px solid #00ff88;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 0 8px rgba(0, 255, 136, 0.2);
+    `;
+
+    btn.addEventListener('mouseenter', () => {
+      btn.style.boxShadow = '0 0 16px rgba(0, 255, 136, 0.6)';
+      btn.style.transform = 'scale(1.05)';
+    });
+
+    btn.addEventListener('mouseleave', () => {
+      btn.style.boxShadow = '0 0 8px rgba(0, 255, 136, 0.2)';
+      btn.style.transform = 'scale(1)';
+    });
+
+    btn.addEventListener('click', () => {
+      // Highlight selected button
+      group.querySelectorAll('button').forEach(b => {
+        b.style.background = `linear-gradient(to bottom, ${fillColorStart}, ${fillColorEnd}22)`;
+        b.style.boxShadow = '0 0 8px rgba(0, 255, 136, 0.2)';
+      });
+      btn.style.background = `linear-gradient(to bottom, ${fillColorEnd}88, ${fillColorEnd})`;
+      btn.style.boxShadow = '0 0 20px rgba(0, 255, 136, 0.8)';
+
+      console.log(`${labelText} set to ${value}${unit}`);
+      // Later: add 2-second timer + nodeWire.emit here
+      // e.g. nodeWire.emit('set-' + labelText.toLowerCase(), { value });
+    });
+
+    group.appendChild(btn);
+  });
+
   wrapper.appendChild(label);
-  wrapper.appendChild(container);
-  sliderSection.appendChild(wrapper);
-
-  // Drag logic
-  let currentPercent = initialPercent;
-  let isDragging = false;
-
-  function update(percent) {
-    percent = Math.max(0, Math.min(100, Math.round(percent)));
-    currentPercent = percent;
-    fill.style.width = `${percent}%`;
-    knob.style.left = `calc(${percent}% - 10px)`;
-    valueText.textContent = `${percent}${unit}`;
-  }
-
-  function getPercent(e) {
-    const rect = container.getBoundingClientRect();
-    const x = (e.clientX || (e.touches && e.touches[0]?.clientX)) - rect.left;
-    return (x / rect.width) * 100;
-  }
-
-  const start = (e) => {
-    isDragging = true;
-    update(getPercent(e));
-  };
-
-  const move = (e) => {
-    if (isDragging) update(getPercent(e));
-  };
-
-  const end = () => {
-    isDragging = false;
-    //console.log(`${labelText} released at: ${currentPercent}${unit}`);
-    // Later: add 2-second timer + nodeWire.emit here
-  };
-
-  container.addEventListener('mousedown', start);
-  document.addEventListener('mousemove', move);
-  document.addEventListener('mouseup', end);
-
-  container.addEventListener('touchstart', start);
-  document.addEventListener('touchmove', move);
-  document.addEventListener('touchend', end);
-
-  container.addEventListener('click', (e) => update(getPercent(e)));
+  wrapper.appendChild(group);
+  buttonSection.appendChild(wrapper);
 }
 
-// Create the two sliders
-createSlider('SPEED',    '#1a3c4a', '#00aaff', ' m/s', 40);
-createSlider('ALTITUDE', '#1a3c1a', '#00ff88', ' m',   60);
+// Create the two groups
+createPresetGroup('SPEED',    '#1a3c1a', '#00ff88', ' m/s');
+createPresetGroup('ALTITUDE', '#1a3c1a', '#00ff88', ' m');
 
-viewport.appendChild(sliderSection);
+viewport.appendChild(buttonSection);
 
 
   // Debug listener (unchanged)
